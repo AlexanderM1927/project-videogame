@@ -21,11 +21,14 @@ html {
   display: flex;
   justify-content: center;
   align-items: center;
+  background: url('../assets/bg-start.gif');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .btn {
   padding: 0.5rem 1rem;
-  border-radius: 1000;
+  border-radius: 0.5rem;
   text-decoration: none;
   display: flex;
 }
@@ -33,7 +36,11 @@ html {
 .btn-start {
   color: white;
   background: #24252A;
-  padding: 0.5rem 1rem;
-  border-radius: 0.2rem;
-  text-decoration: none;
+  border: 0.1rem solid black;
+  font-size: 3rem;
+}
+
+.btn-start:hover {
+  color: white;
+  background: red;
 }
