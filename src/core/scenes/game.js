@@ -108,7 +108,7 @@ export class Game extends Phaser.Scene {
       this.score = 0
       this.scoreText.setText('PUNTOS: ' + this.score);
       this.lastEnemies += 1
-      this.enemies = new EnemyArcadeGroup(this, this.lastEnemies);
+      this.enemies = new EnemyArcadeGroup(this, (this.lastEnemies < 10 ? this.lastEnemies : 10));
     }
 
     if (this.globalScore > this.mayorPuntaje) {
