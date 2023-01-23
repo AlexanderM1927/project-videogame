@@ -1,6 +1,5 @@
 import { BulletArcadeGroup } from './bulletArcadeGroup'
 import { EnemyArcadeGroup } from './enemyArcadeGroup'
-import { GameOver } from './gameover'
 
 export class Game extends Phaser.Scene {
   constructor() {

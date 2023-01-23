@@ -18,6 +18,7 @@
 import { defineComponent } from 'vue';
 import Phaser from 'phaser'
 import { Game } from '../core/scenes/game.js';
+import { GameOver } from '../core/scenes/gameover';
 
 export default defineComponent({
   name: 'PageIndex',
@@ -28,7 +29,7 @@ export default defineComponent({
         width: "100%",
         height: "100%",
         type: Phaser.AUTO,
-        scene: [Game],
+        scene: [Game, GameOver],
         physics: {
           default: 'arcade',
           arcade: {

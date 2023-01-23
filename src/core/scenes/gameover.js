@@ -6,6 +6,6 @@ export class GameOver extends Phaser.Scene {
       this.load.image('gameover', 'images/gameover.png')
     }
     create () {
-      this.add.image(600, 200, 'gameover')
+      this.add.image(window.innerWidth / 2, 200, 'gameover')
     }
 }
