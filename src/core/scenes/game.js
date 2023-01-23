@@ -1,4 +1,6 @@
 import { BulletArcadeGroup } from './bulletArcadeGroup'
+import { EnemyArcadeGroup } from './enemyArcadeGroup'
+import { GameOver } from './gameover'
 
 export class Game extends Phaser.Scene {
   constructor() {
@@ -21,6 +23,7 @@ export class Game extends Phaser.Scene {
 
   create() {
     this.score = 0
+    this.life = 3
     this.bulletNum = 0
 
     this.gramme = this.physics.add.image(600, 600, 'gramme')
@@ -29,13 +32,14 @@ export class Game extends Phaser.Scene {
     this.player = this.physics.add.sprite(0, 470, 'player')
     this.player.setCollideWorldBounds(true)
 
-    this.enemy = this.physics.add.sprite(window.innerWidth - 120, 475, 'enemy')
+    this.enemies = new EnemyArcadeGroup(this);
 
     this.physics.add.collider(this.player, this.gramme)
 
     this.cursors = this.input.keyboard.createCursorKeys();
 
     this.scoreText = this.add.text(16, 16, 'PUNTOS: 0', { fontSize: '20px', fill: '#fff', fontFamily: 'verdana, arial, sans-serif' });
+    this.lifeText = this.add.text(16, 32, 'VIDA: 3', { fontSize: '20px', fill: '#fff', fontFamily: 'verdana, arial, sans-serif' });
 
     this.backgroundMusic = this.sound.add('backgroundMusic');
     this.backgroundMusic.loop = true;
@@ -70,11 +74,11 @@ export class Game extends Phaser.Scene {
     }
 
     if (this.cursors.space.isDown) {
-      this.bullets.fireBullet(this.player.x, this.player.y - 60, this.enemy);
+      this.bullets.fireBullet(this.player.x + 120, this.player.y - 30, this.enemies);
     }
     this.input.on('pointerup', (pointer) => {
       if (pointer.leftButtonReleased()) {
-        this.bullets.fireBullet(this.player.x, this.player.y - 60, this.enemy);
+        this.bullets.fireBullet(this.player.x + 120, this.player.y - 30, this.enemies);
       }
     })
 
@@ -97,12 +101,23 @@ export class Game extends Phaser.Scene {
     this.scoreText.setText('PUNTOS: ' + this.score);
   }
 
+  decreaseLife(points) {
+    this.life -= points;
+    this.lifeText.setText('VIDAS: ' + this.life);
+  }
+
   jumpAction () {
     this.player.setVelocityY(-200)
     this.player.play('jump')
   }
 
   updateEnemy () {
+    setTimeout(()=> {
+      this.enemies.spawnEnemy(Phaser.Math.Between(600, window.innerWidth - 100), 470, this.player);
+    }, 1000);
 
+    if (this.life < 1) {
+      this.scene.start('gameover')
+    }
   }
 }

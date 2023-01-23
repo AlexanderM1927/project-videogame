@@ -13,7 +13,7 @@ export class Bullet extends Phaser.Physics.Arcade.Sprite
     this.setVisible(true);
 
     this.setVelocityX(3000);
-    this.setScale(0.2);
+    this.setScale(1);
 
     this.scene.physics.add.collider(this,  enemy, (self, enemyFire)=>{
       const originalBugTint = enemyFire.tint;
@@ -24,7 +24,6 @@ export class Bullet extends Phaser.Physics.Arcade.Sprite
         enemyFire.setActive(false);
         self.setActive(false);
         self.setVisible(false);
-        this.scene.physics.world.disable(self);
         self.setVelocityX(0);
       }, [], this.scene);
       this.scene.increasePoints(1)
