@@ -22,8 +22,9 @@ export class Game extends Phaser.Scene {
 
   create() {
     this.score = 0
-    this.life = 3
+    this.life = 500
     this.bulletNum = 0
+    this.lastEnemies = 3
 
     this.gramme = this.physics.add.image(600, 600, 'gramme')
     this.gramme.setImmovable(true)
@@ -31,14 +32,14 @@ export class Game extends Phaser.Scene {
     this.player = this.physics.add.sprite(0, 470, 'player')
     this.player.setCollideWorldBounds(true)
 
-    this.enemies = new EnemyArcadeGroup(this);
+    this.enemies = new EnemyArcadeGroup(this, this.lastEnemies);
 
     this.physics.add.collider(this.player, this.gramme)
 
     this.cursors = this.input.keyboard.createCursorKeys();
 
     this.scoreText = this.add.text(16, 16, 'PUNTOS: 0', { fontSize: '20px', fill: '#fff', fontFamily: 'verdana, arial, sans-serif' });
-    this.lifeText = this.add.text(16, 32, 'VIDA: 3', { fontSize: '20px', fill: '#fff', fontFamily: 'verdana, arial, sans-serif' });
+    this.lifeText = this.add.text(16, 32, 'VIDA: '+this.life, { fontSize: '20px', fill: '#fff', fontFamily: 'verdana, arial, sans-serif' });
 
     this.backgroundMusic = this.sound.add('backgroundMusic');
     this.backgroundMusic.loop = true;
@@ -82,6 +83,20 @@ export class Game extends Phaser.Scene {
     })
 
     this.updateEnemy()
+    this.updateStats()
+  }
+
+  updateStats () {
+    if (this.life < 1) {
+      this.backgroundMusic.stop()
+      this.scene.start('gameover')
+    }
+
+    if (this.score > 500) {
+      this.score = 0
+      this.lastEnemies += 1
+      this.enemies = new EnemyArcadeGroup(this, this.lastEnemies);
+    }
   }
 
   createAnims () {
@@ -110,7 +125,7 @@ export class Game extends Phaser.Scene {
 
   decreaseLife(points) {
     this.life -= points;
-    this.lifeText.setText('VIDAS: ' + this.life);
+    this.lifeText.setText('VIDA: ' + this.life);
   }
 
   jumpAction () {
@@ -129,9 +144,5 @@ export class Game extends Phaser.Scene {
     }, 1000);
 
     this.walkAction()
-
-    if (this.life < 1) {
-      this.scene.start('gameover')
-    }
   }
 }
