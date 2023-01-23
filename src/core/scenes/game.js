@@ -143,6 +143,13 @@ export class Game extends Phaser.Scene {
       this.enemies.spawnEnemy(Phaser.Math.Between(600, window.innerWidth - 100), 470, this.player);
     }, 1000);
 
+    const firstEnemyAlive = this.enemies.getFirstAlive()
+    if (firstEnemyAlive) {
+      if (firstEnemyAlive.x < 0) {
+        this.enemies.kill(firstEnemyAlive)
+      }
+    }
+
     this.walkAction()
   }
 }
