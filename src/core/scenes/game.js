@@ -146,10 +146,17 @@ export class Game extends Phaser.Scene {
     this.anims.create({
       key: 'walk',
       frames: this.anims.generateFrameNumbers('enemy', {
-        frames: [ 0, 1]
+        frames: [0]
       }),
       frameRate: 2,
-      repeat: 1
+      repeat: -1
+    })
+    this.anims.create({
+      key: 'fight',
+      frames: this.anims.generateFrameNumbers('enemy', {
+        frames: [1, 0]
+      }),
+      repeat: -1
     })
   }
 
@@ -177,8 +184,8 @@ export class Game extends Phaser.Scene {
 
   updateEnemy () {
     setTimeout(()=> {
-      this.enemies.spawnEnemy(Phaser.Math.Between(600, window.innerWidth - 100), 470, this.player);
-    }, 1000);
+      this.enemies.spawnEnemy(Phaser.Math.Between(800, window.innerWidth -100), 470, this.player);
+    }, 1500);
 
     const firstEnemyAlive = this.enemies.getFirstAlive()
     if (firstEnemyAlive) {
