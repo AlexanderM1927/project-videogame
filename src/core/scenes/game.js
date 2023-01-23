@@ -106,6 +106,7 @@ export class Game extends Phaser.Scene {
     if (this.score > 500) {
       this.showNextLvl()
       this.score = 0
+      this.scoreText.setText('PUNTOS: ' + this.score);
       this.lastEnemies += 1
       this.enemies = new EnemyArcadeGroup(this, this.lastEnemies);
     }
@@ -138,9 +139,9 @@ export class Game extends Phaser.Scene {
     this.anims.create({
       key: 'walk',
       frames: this.anims.generateFrameNumbers('enemy', {
-        frames: [ 0, 1, 0]
+        frames: [ 0, 1]
       }),
-      frameRate: 200,
+      frameRate: 2,
       repeat: 1
     })
   }
@@ -164,7 +165,7 @@ export class Game extends Phaser.Scene {
 
   walkAction () {
     this.enemies.setVelocityX(-200)
-    this.enemies.playAnimation('walk', 0)
+    this.enemies.playAnimation('walk')
   }
 
   updateEnemy () {
