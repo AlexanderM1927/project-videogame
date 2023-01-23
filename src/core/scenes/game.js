@@ -19,7 +19,7 @@ export class Game extends Phaser.Scene {
     this.gramme.setImmovable(true)
 
     this.player = this.physics.add.sprite(0, 470, 'player')
-    // this.player.setCollideWorldBounds(true)
+    this.player.setCollideWorldBounds(true)
 
     this.physics.add.collider(this.player, this.gramme)
 
@@ -47,11 +47,9 @@ export class Game extends Phaser.Scene {
     this.physics.add.collider(this.player, this.gramme);
     if (this.cursors.left.isDown) {
       this.player.x += -4;
-      this.gramme.tilePositionX += -0.5
     }
     else if (this.cursors.right.isDown) {
       this.player.x += 4;
-      this.gramme.tilePositionX += 0.5
     }
     else if (this.cursors.up.isDown) {
       this.jumpAction()
