@@ -5,26 +5,46 @@ export class Game extends Phaser.Scene {
 
   preload() {
     this.load.image('gramme', 'images/gramme.png');
-    this.load.image('player', 'images/player.png');
-    this.load.audio('playingSound', 'sounds/game.ogg');
+    this.load.spritesheet('player', 'images/player.png', {
+      frameWidth: 120,
+      frameHeight: 200
+  })
+    this.load.audio('backgroundMusic', 'sounds/game.ogg');
   }
 
   create() {
-    this.power = 0;
+    this.score = 0
 
-    this.gramme = this.add.tileSprite(window.innerWidth / 2, 600, window.innerWidth, 70, 'gramme')
+    this.gramme = this.physics.add.image(600, 600, 'gramme')
+    this.gramme.setImmovable(true)
 
-    this.player = this.physics.add.image(100, 470, 'player')
+    this.player = this.physics.add.sprite(0, 470, 'player')
+    // this.player.setCollideWorldBounds(true)
+
+    this.physics.add.collider(this.player, this.gramme)
 
     this.cursors = this.input.keyboard.createCursorKeys();
 
     this.scoreText = this.add.text(16, 16, 'PUNTOS: 0', { fontSize: '20px', fill: '#fff', fontFamily: 'verdana, arial, sans-serif' });
 
-    this.playingSound = this.sound.add('playingSound');
-    this.playingSound.loop = true;
+    this.backgroundMusic = this.sound.add('backgroundMusic');
+    this.backgroundMusic.loop = true;
+    this.backgroundMusic.play()
+
+    this.createAnims()
+
+    this.player.on('animationcomplete', this.animationComplete, this)
+
+  }
+
+  animationComplete (animation, frame, sprite) {
+    if (animation.key === 'jump') {
+      this.player.setVelocityY(200)
+    }
   }
 
   update() {
+    this.physics.add.collider(this.player, this.gramme);
     if (this.cursors.left.isDown) {
       this.player.x += -4;
       this.gramme.tilePositionX += -0.5
@@ -34,13 +54,29 @@ export class Game extends Phaser.Scene {
       this.gramme.tilePositionX += 0.5
     }
     else if (this.cursors.up.isDown) {
-      console.log('activo')
-      this.player.setBounce(1)
+      this.jumpAction()
     }
+  }
+
+  createAnims () {
+    this.anims.create({
+      key: 'jump',
+      frames: this.anims.generateFrameNumbers('player', {
+          start: 0,
+          end: 2
+      }),
+      frameRate: 7,
+      repeat: 1
+    })
   }
 
   increasePoints(points) {
     this.score += points;
     this.scoreText.setText('PUNTOS: ' + this.score);
+  }
+
+  jumpAction () {
+    this.player.setVelocityY(-200)
+    this.player.play('jump')
   }
 }
