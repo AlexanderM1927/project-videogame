@@ -10,8 +10,6 @@ export class Game extends Phaser.Scene {
       frameWidth: 200
     })
     this.load.spritesheet('enemy', 'images/enemy.png', {
-      width: 200,
-      height: 200,
       frameHeight: 200,
       frameWidth: 200
     })
@@ -52,7 +50,6 @@ export class Game extends Phaser.Scene {
   }
 
   update() {
-    this.physics.add.collider(this.player, this.gramme);
     if (this.cursors.left.isDown) {
       this.player.x += -4;
     }
