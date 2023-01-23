@@ -6,10 +6,16 @@ export class Game extends Phaser.Scene {
   preload() {
     this.load.image('gramme', 'images/gramme.png');
     this.load.spritesheet('player', 'images/player.png', {
-      frameWidth: 120,
-      frameHeight: 200
-  })
-    this.load.audio('backgroundMusic', 'sounds/game.ogg');
+      frameHeight: 200,
+      frameWidth: 200
+    })
+    this.load.spritesheet('enemy', 'images/enemy.png', {
+      width: 200,
+      height: 200,
+      frameHeight: 200,
+      frameWidth: 200
+    })
+    this.load.audio('backgroundMusic', 'sounds/bgsound.mp3');
   }
 
   create() {
@@ -20,6 +26,8 @@ export class Game extends Phaser.Scene {
 
     this.player = this.physics.add.sprite(0, 470, 'player')
     this.player.setCollideWorldBounds(true)
+
+    this.enemy = this.physics.add.sprite(window.innerWidth - 120, 475, 'enemy')
 
     this.physics.add.collider(this.player, this.gramme)
 
@@ -60,8 +68,7 @@ export class Game extends Phaser.Scene {
     this.anims.create({
       key: 'jump',
       frames: this.anims.generateFrameNumbers('player', {
-          start: 0,
-          end: 2
+        frames: [ 0, 1, 0]
       }),
       frameRate: 7,
       repeat: 1
