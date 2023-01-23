@@ -6,11 +6,11 @@ export class EnemyArcadeGroup extends Phaser.Physics.Arcade.Group {
         super(scene.physics.world, scene);
 
         this.createMultiple({
-            frameQuantity: 3,
-            key: 'alien',
-            active: false,
-            visible: false,
-            classType: Enemy
+          frameQuantity: 3,
+          key: 'alien',
+          active: false,
+          visible: false,
+          classType: Enemy
         });
     }
 

@@ -93,6 +93,14 @@ export class Game extends Phaser.Scene {
       frameRate: 7,
       repeat: 1
     })
+    this.anims.create({
+      key: 'walk',
+      frames: this.anims.generateFrameNumbers('enemy', {
+        frames: [ 0, 1, 0]
+      }),
+      frameRate: 200,
+      repeat: 1
+    })
   }
 
   increasePoints(points) {
@@ -110,10 +118,17 @@ export class Game extends Phaser.Scene {
     this.player.play('jump')
   }
 
+  walkAction () {
+    this.enemies.setVelocityX(-200)
+    this.enemies.playAnimation('walk', 0)
+  }
+
   updateEnemy () {
     setTimeout(()=> {
       this.enemies.spawnEnemy(Phaser.Math.Between(600, window.innerWidth - 100), 470, this.player);
     }, 1000);
+
+    this.walkAction()
 
     if (this.life < 1) {
       this.scene.start('gameover')

@@ -25,8 +25,8 @@ export class Bullet extends Phaser.Physics.Arcade.Sprite
         self.setActive(false);
         self.setVisible(false);
         self.setVelocityX(0);
+        this.scene.increasePoints(1)
       }, [], this.scene);
-      this.scene.increasePoints(1)
     });
 
     this.hitTimer = this.scene.time.delayedCall(300, () => {
