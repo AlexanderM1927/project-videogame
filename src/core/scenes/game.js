@@ -29,8 +29,9 @@ export class Game extends Phaser.Scene {
     this.bulletNum = 0
     this.lastEnemies = 3
     this.nivel = 1
+    this.backgroundX = 600
 
-    this.gramme = this.physics.add.image(600, 600, 'gramme')
+    this.gramme = this.physics.add.image(this.backgroundX, 600, 'gramme')
     this.gramme.setImmovable(true)
 
     this.player = this.physics.add.sprite(0, 470, 'player')
@@ -75,9 +76,11 @@ export class Game extends Phaser.Scene {
   update() {
     if (this.cursors.left.isDown) {
       this.player.x += -4;
+      this.doScrolling()
     }
     if (this.cursors.right.isDown) {
       this.player.x += 4;
+      this.doScrolling()
     }
     if (this.cursors.up.isDown) {
       this.jumpAction()
@@ -185,5 +188,15 @@ export class Game extends Phaser.Scene {
     }
 
     this.walkAction()
+  }
+
+  doScrolling () {
+    this.backgroundX -= 4
+
+    if (this.backgroundX < 600) {
+      this.backgroundX = 800
+    }
+
+    this.gramme.setPosition(this.backgroundX, 600)
   }
 }
