@@ -16,10 +16,8 @@
 
 <script>
 import { defineComponent } from 'vue';
-
-import { defineCustomElements as defineIonPhaser } from '@ion-phaser/core/loader';
 import Phaser from 'phaser'
-defineIonPhaser(window);
+import { Game } from '../core/scenes/game.js';
 
 export default defineComponent({
   name: 'PageIndex',
@@ -30,21 +28,12 @@ export default defineComponent({
         width: "100%",
         height: "100%",
         type: Phaser.AUTO,
-        scene: {
-          init() {
-            this.cameras.main.setBackgroundColor("#24252A");
-          },
-          create() {
-            this.helloWorld = this.add.text(
-              this.cameras.main.centerX,
-              this.cameras.main.centerY,
-              "Hello World",
-              { font: "1rem Arial",  fill: "#ffffff" }
-            );
-            this.helloWorld.setOrigin(0.5);
-          },
-          update() {
-            this.helloWorld.angle += 1;
+        scene: [Game],
+        physics: {
+          default: 'arcade',
+          arcade: {
+            debug: false,
+            gravitiy: 400
           }
         }
       }
