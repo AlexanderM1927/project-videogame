@@ -18,7 +18,7 @@ export class Bullet extends Phaser.Physics.Arcade.Sprite
     this.scene.physics.add.collider(this,  enemy, (self, enemyFire)=>{
       const originalBugTint = enemyFire.tint;
       enemyFire.tint = 0xff0000;
-      this.hitTimer = this.scene.time.delayedCall(50, () => {
+      this.hitTimer = this.scene.time.delayedCall(300, () => {
         enemyFire.tint = originalBugTint;
         enemyFire.setVisible(false);
         enemyFire.setActive(false);
@@ -29,6 +29,11 @@ export class Bullet extends Phaser.Physics.Arcade.Sprite
       }, [], this.scene);
       this.scene.increasePoints(1)
     });
+
+    this.hitTimer = this.scene.time.delayedCall(300, () => {
+      this.setActive(false);
+      this.setVisible(false);
+    })
   }
 
   preUpdate (time, delta)

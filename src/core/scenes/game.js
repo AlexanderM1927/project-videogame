@@ -77,6 +77,8 @@ export class Game extends Phaser.Scene {
         this.bullets.fireBullet(this.player.x, this.player.y - 60, this.enemy);
       }
     })
+
+    this.updateEnemy()
   }
 
   createAnims () {
@@ -98,5 +100,9 @@ export class Game extends Phaser.Scene {
   jumpAction () {
     this.player.setVelocityY(-200)
     this.player.play('jump')
+  }
+
+  updateEnemy () {
+
   }
 }
