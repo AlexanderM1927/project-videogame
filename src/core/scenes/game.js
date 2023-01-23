@@ -23,9 +23,11 @@ export class Game extends Phaser.Scene {
 
   create() {
     this.score = 0
+    this.globalScore = 0
     this.life = 500
     this.bulletNum = 0
     this.lastEnemies = 3
+    this.nivel = 1
 
     this.gramme = this.physics.add.image(600, 600, 'gramme')
     this.gramme.setImmovable(true)
@@ -39,8 +41,13 @@ export class Game extends Phaser.Scene {
 
     this.cursors = this.input.keyboard.createCursorKeys();
 
+    this.mayorPuntaje = localStorage.getItem('mayorPuntaje') ? localStorage.getItem('mayorPuntaje') : 0
+
+    this.globalScoreText = this.add.text(window.innerWidth - 230, 16, 'PUNTAJE GLOBAL: ' + this.globalScore, { fontSize: '20px', fill: '#fff', fontFamily: 'verdana, arial, sans-serif' });
+    this.highestScoreText = this.add.text(window.innerWidth - 230, 32, 'MAYOR PUNTAJE: ' + this.mayorPuntaje, { fontSize: '20px', fill: '#fff', fontFamily: 'verdana, arial, sans-serif' });
     this.scoreText = this.add.text(16, 16, 'PUNTOS: 0', { fontSize: '20px', fill: '#fff', fontFamily: 'verdana, arial, sans-serif' });
-    this.lifeText = this.add.text(16, 32, 'VIDA: '+this.life, { fontSize: '20px', fill: '#fff', fontFamily: 'verdana, arial, sans-serif' });
+    this.lifeText = this.add.text(16, 32, 'VIDA: '+ this.life, { fontSize: '20px', fill: '#fff', fontFamily: 'verdana, arial, sans-serif' });
+    this.lvlText = this.add.text(16, 48, 'NIVEL: '+ this.nivel, { fontSize: '20px', fill: '#fff', fontFamily: 'verdana, arial, sans-serif' });
 
     this.backgroundMusic = this.sound.add('backgroundMusic');
     this.backgroundMusic.loop = true;
@@ -102,9 +109,17 @@ export class Game extends Phaser.Scene {
       this.lastEnemies += 1
       this.enemies = new EnemyArcadeGroup(this, this.lastEnemies);
     }
+
+    if (this.globalScore > this.mayorPuntaje) {
+      localStorage.setItem('mayorPuntaje', this.globalScore)
+      this.mayorPuntaje = this.globalScore
+      this.highestScoreText.setText('MAYOR PUNTAJE: ' + this.mayorPuntaje);
+    }
   }
 
   showNextLvl () {
+    this.nivel += 1
+    this.lvlText.setText('NIVEL: ' + this.nivel);
     this.nextlvl.visible = true
     setTimeout(() => {
       this.nextlvl.visible = false
@@ -132,7 +147,9 @@ export class Game extends Phaser.Scene {
 
   increasePoints(points) {
     this.score += points;
+    this.globalScore += points;
     this.scoreText.setText('PUNTOS: ' + this.score);
+    this.globalScoreText.setText('PUNTAJE GLOBAL: ' + this.score);
   }
 
   decreaseLife(points) {
