@@ -43,8 +43,8 @@ export class Game extends Phaser.Scene {
 
     this.mayorPuntaje = localStorage.getItem('mayorPuntaje') ? localStorage.getItem('mayorPuntaje') : 0
 
-    this.globalScoreText = this.add.text(window.innerWidth - 230, 16, 'PUNTAJE GLOBAL: ' + this.globalScore, { fontSize: '20px', fill: '#fff', fontFamily: 'verdana, arial, sans-serif' });
-    this.highestScoreText = this.add.text(window.innerWidth - 230, 32, 'MAYOR PUNTAJE: ' + this.mayorPuntaje, { fontSize: '20px', fill: '#fff', fontFamily: 'verdana, arial, sans-serif' });
+    this.globalScoreText = this.add.text(window.innerWidth - 300, 16, 'PUNTAJE GLOBAL: ' + this.globalScore, { fontSize: '20px', fill: '#fff', fontFamily: 'verdana, arial, sans-serif' });
+    this.highestScoreText = this.add.text(window.innerWidth - 300, 32, 'MAYOR PUNTAJE: ' + this.mayorPuntaje, { fontSize: '20px', fill: '#fff', fontFamily: 'verdana, arial, sans-serif' });
     this.scoreText = this.add.text(16, 16, 'PUNTOS: 0', { fontSize: '20px', fill: '#fff', fontFamily: 'verdana, arial, sans-serif' });
     this.lifeText = this.add.text(16, 32, 'VIDA: '+ this.life, { fontSize: '20px', fill: '#fff', fontFamily: 'verdana, arial, sans-serif' });
     this.lvlText = this.add.text(16, 48, 'NIVEL: '+ this.nivel, { fontSize: '20px', fill: '#fff', fontFamily: 'verdana, arial, sans-serif' });
@@ -149,7 +149,7 @@ export class Game extends Phaser.Scene {
     this.score += points;
     this.globalScore += points;
     this.scoreText.setText('PUNTOS: ' + this.score);
-    this.globalScoreText.setText('PUNTAJE GLOBAL: ' + this.score);
+    this.globalScoreText.setText('PUNTAJE GLOBAL: ' + this.globalScore);
   }
 
   decreaseLife(points) {
