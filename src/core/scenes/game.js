@@ -19,6 +19,7 @@ export class Game extends Phaser.Scene {
     this.load.image('bullet', 'images/bullet.png');
     this.load.image('nextlvl', 'images/nextlvl.png');
     this.load.audio('backgroundMusic', 'sounds/bgsound.mp3');
+    this.load.audio('bulletSound', 'sounds/bullet.mp3');
   }
 
   create() {
@@ -49,6 +50,7 @@ export class Game extends Phaser.Scene {
     this.lifeText = this.add.text(16, 32, 'VIDA: '+ this.life, { fontSize: '20px', fill: '#fff', fontFamily: 'verdana, arial, sans-serif' });
     this.lvlText = this.add.text(16, 48, 'NIVEL: '+ this.nivel, { fontSize: '20px', fill: '#fff', fontFamily: 'verdana, arial, sans-serif' });
 
+    this.bulletSound = this.sound.add('bulletSound')
     this.backgroundMusic = this.sound.add('backgroundMusic');
     this.backgroundMusic.loop = true;
     this.backgroundMusic.play()
@@ -86,11 +88,13 @@ export class Game extends Phaser.Scene {
 
     if (this.cursors.space.isDown) {
       this.bullets.fireBullet(this.player.x + 120, this.player.y - 30, this.enemies);
+      this.bulletSound.play();
     }
     this.input.on('pointerup', (pointer) => {
       if (pointer.leftButtonReleased()) {
         this.bullets.fireBullet(this.player.x + 120, this.player.y - 30, this.enemies);
       }
+      this.bulletSound.play();
     })
 
     this.updateEnemy()
