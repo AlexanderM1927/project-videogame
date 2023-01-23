@@ -17,6 +17,7 @@ export class Game extends Phaser.Scene {
       frameWidth: 200
     })
     this.load.image('bullet', 'images/bullet.png');
+    this.load.image('nextlvl', 'images/nextlvl.png');
     this.load.audio('backgroundMusic', 'sounds/bgsound.mp3');
   }
 
@@ -50,6 +51,9 @@ export class Game extends Phaser.Scene {
     this.createAnims()
 
     this.player.on('animationcomplete', this.animationComplete, this)
+
+    this.nextlvl = this.physics.add.image(window.innerWidth / 2, 100, 'nextlvl')
+    this.nextlvl.visible = false
 
   }
 
@@ -93,10 +97,18 @@ export class Game extends Phaser.Scene {
     }
 
     if (this.score > 500) {
+      this.showNextLvl()
       this.score = 0
       this.lastEnemies += 1
       this.enemies = new EnemyArcadeGroup(this, this.lastEnemies);
     }
+  }
+
+  showNextLvl () {
+    this.nextlvl.visible = true
+    setTimeout(() => {
+      this.nextlvl.visible = false
+    }, 3000)
   }
 
   createAnims () {
