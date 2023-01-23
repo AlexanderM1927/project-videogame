@@ -1,3 +1,5 @@
+import { BulletArcadeGroup } from './bulletArcadeGroup'
+
 export class Game extends Phaser.Scene {
   constructor() {
     super({ key: 'game' });
@@ -13,11 +15,13 @@ export class Game extends Phaser.Scene {
       frameHeight: 200,
       frameWidth: 200
     })
+    this.load.image('bullet', 'images/bullet.png');
     this.load.audio('backgroundMusic', 'sounds/bgsound.mp3');
   }
 
   create() {
     this.score = 0
+    this.bulletNum = 0
 
     this.gramme = this.physics.add.image(600, 600, 'gramme')
     this.gramme.setImmovable(true)
@@ -37,6 +41,8 @@ export class Game extends Phaser.Scene {
     this.backgroundMusic.loop = true;
     this.backgroundMusic.play()
 
+    this.bullets = new BulletArcadeGroup(this);
+
     this.createAnims()
 
     this.player.on('animationcomplete', this.animationComplete, this)
@@ -53,12 +59,24 @@ export class Game extends Phaser.Scene {
     if (this.cursors.left.isDown) {
       this.player.x += -4;
     }
-    else if (this.cursors.right.isDown) {
+    if (this.cursors.right.isDown) {
       this.player.x += 4;
     }
-    else if (this.cursors.up.isDown) {
+    if (this.cursors.up.isDown) {
       this.jumpAction()
     }
+    if (this.cursors.up.isDown) {
+      this.jumpAction()
+    }
+
+    if (this.cursors.space.isDown) {
+      this.bullets.fireBullet(this.player.x, this.player.y - 60, this.enemy);
+    }
+    this.input.on('pointerup', (pointer) => {
+      if (pointer.leftButtonReleased()) {
+        this.bullets.fireBullet(this.player.x, this.player.y - 60, this.enemy);
+      }
+    })
   }
 
   createAnims () {
