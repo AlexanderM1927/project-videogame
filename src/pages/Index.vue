@@ -3,7 +3,7 @@
     <div class="main-container">
       <div class="game-container">
         <div @click="initializeGame" v-if="!initialize">
-          <a href="#1"  class="btn btn-start">Initialize</a>
+          <a href="#1"  class="btn btn-start">Last Killed Start</a>
         </div>
         <ion-phaser
           v-bind:game.prop='game'
